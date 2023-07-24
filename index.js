@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
+require('dotenv').config();
+
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
@@ -23,12 +25,13 @@ app.put('/add-role', async (req, res) => {
   await fetch(`https://discord.com/api/guilds/1121704043539091537/members/${memberId}/roles/1130452854340067358`, {
     method: 'PUT',
     headers: {
-      Authorization: `Bot MTEzMTQ5NzU4ODE4NTY0MTA1Mw.GAPvWo.wT7XTHdeGZmbnCQjq5u-2OPMq6VjhsLBMI2fEc`
+      Authorization: `Bot ${process.env.BOT_TOKEN}`
     }
   }).then(res.status(200).send(`role added to ${memberId}`))
 })
 
+const PORT = process.env.PORT || 8000
 
-app.listen(8000, () => {
-  console.log('app is running!');
+app.listen(PORT, () => {
+  console.log(`app is running on PORT: ${PORT}!`);
 })
