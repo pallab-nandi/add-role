@@ -9,14 +9,18 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(cors());
 
-/* app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  next();
-}); */
+const { getProof } = require('./merkleTree');
+
+app.get('/:add', (req, res) => {
+  const address = req.params.add;
+  console.log(address);
+
+  const proof = getProof(address);
+
+  return res.status(200).send(JSON.stringify({
+    data: proof
+  }))
+})
 
 app.put('/add-role', async (req, res) => {
   const memberId = req.body.memberId;
